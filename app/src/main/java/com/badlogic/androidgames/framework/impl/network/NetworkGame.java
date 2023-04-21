@@ -22,10 +22,6 @@ public abstract class NetworkGame extends AndroidGame {
     public boolean otherPlayerPressedResume;
     public boolean otherPlayerWon;
     public boolean otherPlayerStopped;
-
-    public boolean firstTimeConnected = true;
-    public long startConnectedTime;
-    public boolean startGameButtonEnabled;
     /*************** Network **************************/
 
     /*************** Multithreading *******************/
@@ -47,8 +43,6 @@ public abstract class NetworkGame extends AndroidGame {
             networkManager.dispose();
         }
         networkManager = new NetworkManager(handlerToMainThread, getApplicationContext(), TAG);
-        firstTimeConnected = true;
-        startGameButtonEnabled = false;
     }
 
     public void createServer(NetworkScreen screen) {

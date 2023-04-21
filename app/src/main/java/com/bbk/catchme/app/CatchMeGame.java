@@ -8,6 +8,7 @@ import android.os.Message;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.impl.network.NetworkGame;
 import com.badlogic.androidgames.framework.impl.network.NetworkManager;
+import com.bbk.catchme.ui.PrepareMultiplayerScreen;
 
 public class CatchMeGame extends NetworkGame {
 
