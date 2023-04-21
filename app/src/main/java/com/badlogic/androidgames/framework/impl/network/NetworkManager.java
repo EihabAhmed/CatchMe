@@ -34,17 +34,17 @@ public class NetworkManager {
 
     private final String TAG;
     private final String myServiceName;
+    private final String serviceTypeName;
 
     private Thread connectionServerThread;
     private Thread connectionClientThread;
 
-    //boolean serviceRegistered;
     private boolean connected;
 
     private Handler handlerFromMainThread;
     private static PrintWriter printWriter;
 
-    public NetworkManager(Handler handler, Context context, String serviceName) {
+    public NetworkManager(Handler handler, Context context, String serviceName, String serviceTypeName) {
         handlerToMainThread = handler;
 
         nsdHelper = new NsdHelper(context);
@@ -53,6 +53,7 @@ public class NetworkManager {
         
         TAG = serviceName + "Tag";
         myServiceName = serviceName;
+        this.serviceTypeName = serviceTypeName;
     }
 
     public boolean initializeServer() {
@@ -342,7 +343,7 @@ public class NetworkManager {
         private final NsdManager nsdManager;
 
         String serviceName;
-        final String SERVICE_TYPE = "_nsd_rubik_race._tcp.";
+        final String SERVICE_TYPE = "_nsd_" + serviceTypeName + "._tcp.";
         int port;
 
         //final String TAG = "NsdHelper";

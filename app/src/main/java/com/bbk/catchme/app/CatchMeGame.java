@@ -24,6 +24,7 @@ public class CatchMeGame extends NetworkGame {
         worldHeight = 1920;
 
         TAG = "CatchMe";
+        serviceTypeName = "catch_me";
 
         super.onCreate(savedInstanceState);
 
@@ -81,7 +82,7 @@ public class CatchMeGame extends NetworkGame {
             }
         };
 
-        networkManager = new NetworkManager(handlerToMainThread, getApplicationContext(), TAG);
+        networkManager = new NetworkManager(handlerToMainThread, getApplicationContext(), TAG, serviceTypeName);
     }
 
     public void receiveMessage(String msg) {

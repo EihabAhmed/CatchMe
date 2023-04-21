@@ -31,6 +31,7 @@ public abstract class NetworkGame extends AndroidGame {
     /*************** Multithreading *******************/
 
     public String TAG;
+    public String serviceTypeName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public abstract class NetworkGame extends AndroidGame {
             sendMessage("Iam Closing");
             networkManager.dispose();
         }
-        networkManager = new NetworkManager(handlerToMainThread, getApplicationContext(), TAG);
+        networkManager = new NetworkManager(handlerToMainThread, getApplicationContext(), TAG, serviceTypeName);
     }
 
     public void createServer(NetworkScreen screen) {
