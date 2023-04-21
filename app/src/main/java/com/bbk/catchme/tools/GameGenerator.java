@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class GameGenerator {
 
-//    public static boolean multiplayer;
+    public static boolean multiplayer;
 //
 //    public static Colors[] targetColors;
 //
-//    public static Colors[] generateGame() {
+    public static int generateGame() {
 //        targetColors = new Colors[18];
 //
 //        Random random = new Random();
@@ -34,6 +34,6 @@ public class GameGenerator {
 //            }
 //        }
 //
-//        return targetColors;
-//    }
+        return 0;
+    }
 }

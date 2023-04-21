@@ -16,7 +16,7 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
 
     private int creatingJoining = 0;
 
-    PrepareMultiplayerScreen(Game game) {
+    public PrepareMultiplayerScreen(Game game) {
         super(game);
         myGame = (CatchMeGame) game;
 
@@ -131,7 +131,11 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
             TouchEvent event = touchEvents.get(i);
             if (event.pointer == 0) {
                 if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                    if (event.x >= 230 && event.x <= 230 + 620 && event.y >= 800 && event.y <= 800 + 185) {
+                        state = ScreenState.Normal;
+                        myGame.restartNetworkManager();
+                        return;
+                    }
                 }
 
                 if (event.type == TouchEvent.TOUCH_DRAGGED) {
@@ -169,7 +173,11 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
             TouchEvent event = touchEvents.get(i);
             if (event.pointer == 0) {
                 if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                    if (event.x >= 230 && event.x <= 230 + 620 && event.y >= 800 && event.y <= 800 + 185) {
+                        state = ScreenState.Normal;
+                        myGame.restartNetworkManager();
+                        return;
+                    }
                 }
 
                 if (event.type == TouchEvent.TOUCH_DRAGGED) {
@@ -202,7 +210,11 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
             TouchEvent event = touchEvents.get(i);
             if (event.pointer == 0) {
                 if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                    if (event.x >= 230 && event.x <= 230 + 620 && event.y >= 800 && event.y <= 800 + 185) {
+                        state = ScreenState.Normal;
+                        myGame.restartNetworkManager();
+                        return;
+                    }
                 }
 
                 if (event.type == TouchEvent.TOUCH_DRAGGED) {
@@ -243,7 +255,11 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
             TouchEvent event = touchEvents.get(i);
             if (event.pointer == 0) {
                 if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                    if (event.x >= 230 && event.x <= 230 + 620 && event.y >= 800 && event.y <= 800 + 185) {
+                        state = ScreenState.Normal;
+                        myGame.restartNetworkManager();
+                        return;
+                    }
                 }
 
                 if (event.type == TouchEvent.TOUCH_DRAGGED) {
@@ -289,7 +305,12 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
             TouchEvent event = touchEvents.get(i);
             if (event.pointer == 0) {
                 if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                    if (event.x >= 422 && event.x <= 422 + 236 && event.y >= 800 && event.y <= 800 + 40) {
+                        state = ScreenState.PressedStart;
+                        //Send a message to the other player to notify him that this player pressed start
+                        myGame.sendMessage("Pressed Start");
+                        return;
+                    }
                 }
 
                 if (event.type == TouchEvent.TOUCH_DRAGGED) {
@@ -297,12 +318,7 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
                 }
 
                 if (event.type == TouchEvent.TOUCH_UP) {
-                    if (event.x >= 422 && event.x <= 422 + 236 && event.y >= 800 && event.y <= 800 + 40) {
-                        state = ScreenState.PressedStart;
-                        //Send a message to the other player to notify him that this player pressed start
-                        myGame.sendMessage("Pressed Start");
-                        return;
-                    }
+
                 }
             }
         }
@@ -352,7 +368,10 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
             TouchEvent event = touchEvents.get(i);
             if (event.pointer == 0) {
                 if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                    state = ScreenState.Connected;
+                    //Send a message to the other player to notify him that this player is not ready to start
+                    myGame.sendMessage("Cancelled Start");
+                    return;
                 }
 
                 if (event.type == TouchEvent.TOUCH_DRAGGED) {
@@ -360,10 +379,7 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
                 }
 
                 if (event.type == TouchEvent.TOUCH_UP) {
-                    state = ScreenState.Connected;
-                    //Send a message to the other player to notify him that this player is not ready to start
-                    myGame.sendMessage("Cancelled Start");
-                    return;
+
                 }
             }
         }
@@ -371,7 +387,7 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
         if (myGame.otherPlayerPressedStart) {
             myGame.otherPlayerPressedStart = false;
             // start game
-            // game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game));
         }
     }
 

@@ -2,6 +2,7 @@ package com.badlogic.androidgames.framework;
 
 import com.badlogic.androidgames.framework.math.Point;
 import com.badlogic.androidgames.framework.math.Rect;
+import com.bbk.catchme.model.World;
 
 import java.util.Random;
 

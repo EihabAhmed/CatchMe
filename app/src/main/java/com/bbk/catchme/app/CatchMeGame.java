@@ -8,6 +8,10 @@ import android.os.Message;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.impl.network.NetworkGame;
 import com.badlogic.androidgames.framework.impl.network.NetworkManager;
+import com.bbk.catchme.tools.Assets;
+import com.bbk.catchme.tools.GameGenerator;
+import com.bbk.catchme.tools.Settings;
+import com.bbk.catchme.ui.GameScreen;
 import com.bbk.catchme.ui.PrepareMultiplayerScreen;
 
 public class CatchMeGame extends NetworkGame {
@@ -93,31 +97,6 @@ public class CatchMeGame extends NetworkGame {
             }
         } else if (msg.startsWith("GameSetup")) {
             synchronized (this) {
-                GameGenerator.targetColors = new Colors[18];
-
-                msg = msg.substring(msg.indexOf(" ") + 1);
-
-                for (int i = 0; i < GameGenerator.targetColors.length; i++) {
-                    int color = Integer.parseInt(nextToken(msg));
-                    switch (color) {
-                        case 0:
-                            GameGenerator.targetColors[i] = Colors.BLACK;
-                            break;
-                        case 1:
-                            GameGenerator.targetColors[i] = Colors.BLUE;
-                            break;
-                        case 2:
-                            GameGenerator.targetColors[i] = Colors.ORANGE;
-                            break;
-                        case 3:
-                            GameGenerator.targetColors[i] = Colors.WHITE;
-                            break;
-                        case 4:
-                            GameGenerator.targetColors[i] = Colors.YELLOW;
-                            break;
-                    }
-                    msg = msg.substring(msg.indexOf(" ") + 1);
-                }
 
                 gameDataReceived = true;
             }
@@ -164,27 +143,27 @@ public class CatchMeGame extends NetworkGame {
         } else if (msg.startsWith("MyFace")) {
             msg = msg.substring(msg.indexOf(" ") + 1);
 
-            for (int i = 0; i < otherPlayerFace.length; i++) {
-                int color = Integer.parseInt(nextToken(msg));
-                switch (color) {
-                    case 0:
-                        otherPlayerFace[i] = Colors.BLACK;
-                        break;
-                    case 1:
-                        otherPlayerFace[i] = Colors.BLUE;
-                        break;
-                    case 2:
-                        otherPlayerFace[i] = Colors.ORANGE;
-                        break;
-                    case 3:
-                        otherPlayerFace[i] = Colors.WHITE;
-                        break;
-                    case 4:
-                        otherPlayerFace[i] = Colors.YELLOW;
-                        break;
-                }
-                msg = msg.substring(msg.indexOf(" ") + 1);
-            }
+//            for (int i = 0; i < otherPlayerFace.length; i++) {
+//                int color = Integer.parseInt(nextToken(msg));
+//                switch (color) {
+//                    case 0:
+//                        otherPlayerFace[i] = Colors.BLACK;
+//                        break;
+//                    case 1:
+//                        otherPlayerFace[i] = Colors.BLUE;
+//                        break;
+//                    case 2:
+//                        otherPlayerFace[i] = Colors.ORANGE;
+//                        break;
+//                    case 3:
+//                        otherPlayerFace[i] = Colors.WHITE;
+//                        break;
+//                    case 4:
+//                        otherPlayerFace[i] = Colors.YELLOW;
+//                        break;
+//                }
+//                msg = msg.substring(msg.indexOf(" ") + 1);
+//            }
         }
     }
 
@@ -196,7 +175,7 @@ public class CatchMeGame extends NetworkGame {
 
     @Override
     public Screen getStartScreen() {
-        return new ChooseGameScreen(this);
+        return new PrepareMultiplayerScreen(this);
     }
 
     @Override
