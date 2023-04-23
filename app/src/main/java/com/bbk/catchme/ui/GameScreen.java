@@ -2,15 +2,17 @@ package com.bbk.catchme.ui;
 
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
+import com.badlogic.androidgames.framework.Input;
 import com.badlogic.androidgames.framework.Input.KeyEvent;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
 import com.badlogic.androidgames.framework.Pixmap;
 import com.badlogic.androidgames.framework.Screen;
+import com.badlogic.androidgames.framework.math.Circle;
+import com.badlogic.androidgames.framework.math.OverlapTester;
 import com.bbk.catchme.app.CatchMeGame;
 import com.bbk.catchme.model.World;
 import com.bbk.catchme.tools.Assets;
 import com.bbk.catchme.tools.GameGenerator;
-import com.bbk.catchme.tools.Settings;
 
 import java.util.List;
 
@@ -19,6 +21,16 @@ public class GameScreen extends Screen {
 
     private int touchX = 0;
     private int touchY = 0;
+
+    Input input;
+    private Circle button;
+    private int initialX = 0;
+    private int initialY = 0;
+    private int currentX = 0;
+    private int currentY = 0;
+    private boolean isTouchDown = false;
+    final long UPDATE_DELAY = 10_000_000;
+    long lastMoved = System.nanoTime();
 
     public enum GameState {
         Running,
@@ -37,6 +49,9 @@ public class GameScreen extends Screen {
         super(game);
 
         myGame = (CatchMeGame) game;
+
+        input = myGame.getInput();
+        button = new Circle(540, 1475, 175);
 
         startANewGame();
     }
@@ -147,14 +162,52 @@ public class GameScreen extends Screen {
             TouchEvent event = touchEvents.get(i);
             if (event.pointer == 0) {
                 if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                    if (OverlapTester.pointInCircle(button, event.x, event.y)) {
+                        initialX = currentX = event.x;
+                        initialY = currentY = event.y;
+                        isTouchDown = true;
+                    }
                 }
 
                 if (event.type == TouchEvent.TOUCH_DRAGGED) {
                 }
 
                 if (event.type == TouchEvent.TOUCH_UP) {
+                    isTouchDown = false;
+                }
+            }
+        }
 
+        double xComponent = 0;
+        double yComponent = 0;
+
+        if (isTouchDown) {
+            currentX = input.getTouchX(0);
+            currentY = input.getTouchY(0);
+
+            double deltaX = currentX - initialX;
+            double deltaY = currentY - initialY;
+            double delta = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            if (delta >= 50) {
+                double angle;
+
+                if (deltaX == 0) {
+                    angle = Math.PI / 2;
+                } else {
+                    angle = Math.atan(deltaY / deltaX);
+                }
+
+                xComponent = Math.abs(Math.cos(angle));
+                yComponent = Math.abs(Math.sin(angle));
+
+                if (currentX < initialX)
+                    xComponent *= -1;
+                if (currentY < initialY)
+                    yComponent *= -1;
+
+                if (System.nanoTime() - lastMoved >= UPDATE_DELAY) {
+                    world.updatePlayerPosition(xComponent, yComponent);
+                    lastMoved = System.nanoTime();
                 }
             }
         }
@@ -278,7 +331,7 @@ public class GameScreen extends Screen {
     public void present(float deltaTime) {
         Graphics g = game.getGraphics();
 
-        g.drawPixmap(Assets.blackBackgroundImage, 0, 0);
+        g.drawPixmap(Assets.gameBackgroundImage, 0, 0);
 
         if (state == GameState.Running)
             drawRunningUI(g);
@@ -293,7 +346,15 @@ public class GameScreen extends Screen {
     }
 
     private void drawRunningUI(Graphics g) {
+        if (isTouchDown)
+            g.drawPixmap(Assets.blueButtonImage, 365, 1300);
+        else
+            g.drawPixmap(Assets.greenButtonImage, 365, 1300);
 
+        drawInPlayArea(g,
+                Assets.bluePlayerImage,
+                (int) (world.myPlayer.getPositionCenter().x - Assets.bluePlayerImage.getWidth() / 2),
+                (int) (world.myPlayer.getPositionCenter().y - Assets.bluePlayerImage.getHeight() / 2));
     }
 
     private void drawPausedUI(Graphics g) {
@@ -312,6 +373,11 @@ public class GameScreen extends Screen {
         drawRunningUI(g);
     }
 
+    private void drawInPlayArea(Graphics g, Pixmap image, int x, int y) {
+
+        g.drawPixmap(image, x + world.playArea.left, y + world.playArea.top);
+    }
+
     @Override
     public void pause() {
     }
@@ -320,11 +386,19 @@ public class GameScreen extends Screen {
     public void resume() {
         Graphics g = game.getGraphics();
 
-        Assets.blackBackgroundImage = g.newPixmap("blackbackground-1080x1920.png", Graphics.PixmapFormat.RGB565);
+        Assets.gameBackgroundImage = g.newPixmap("gamebackground-1080x1920.png", Graphics.PixmapFormat.RGB565);
+        Assets.bluePlayerImage = g.newPixmap("playerblue-25x25.png", Graphics.PixmapFormat.ARGB4444);
+        Assets.greenPlayerImage = g.newPixmap("playergreen-25x25.png", Graphics.PixmapFormat.ARGB4444);
+        Assets.blueButtonImage = g.newPixmap("buttonblue-350x350.png", Graphics.PixmapFormat.ARGB4444);
+        Assets.greenButtonImage = g.newPixmap("buttongreen-350x350.png", Graphics.PixmapFormat.ARGB4444);
     }
 
     @Override
     public void dispose() {
-        Assets.blackBackgroundImage.dispose();
+        Assets.gameBackgroundImage.dispose();
+        Assets.bluePlayerImage.dispose();
+        Assets.greenPlayerImage.dispose();
+        Assets.blueButtonImage.dispose();
+        Assets.greenButtonImage.dispose();
     }
 }

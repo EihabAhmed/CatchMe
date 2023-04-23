@@ -176,7 +176,7 @@ public class CatchMeGame extends NetworkGame {
 
     @Override
     public Screen getStartScreen() {
-        return new PrepareMultiplayerScreen(this);
+        return new GameScreen(this);
     }
 
     @Override

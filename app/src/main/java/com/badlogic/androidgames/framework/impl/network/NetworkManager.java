@@ -45,15 +45,16 @@ public class NetworkManager {
     private static PrintWriter printWriter;
 
     public NetworkManager(Handler handler, Context context, String serviceName, String serviceTypeName) {
+
+        TAG = serviceName + "Tag";
+        myServiceName = serviceName;
+        this.serviceTypeName = serviceTypeName;
+
         handlerToMainThread = handler;
 
         nsdHelper = new NsdHelper(context);
         nsdHelper.initializeRegistrationListener();
         nsdHelper.initializeDiscoveryListener();
-        
-        TAG = serviceName + "Tag";
-        myServiceName = serviceName;
-        this.serviceTypeName = serviceTypeName;
     }
 
     public boolean initializeServer() {
@@ -345,8 +346,6 @@ public class NetworkManager {
         String serviceName;
         final String SERVICE_TYPE = "_nsd_" + serviceTypeName + "._tcp.";
         int port;
-
-        //final String TAG = "NsdHelper";
 
         InetAddress host;
 

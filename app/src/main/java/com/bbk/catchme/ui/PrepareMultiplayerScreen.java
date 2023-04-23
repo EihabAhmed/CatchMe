@@ -15,6 +15,7 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
     private final CatchMeGame myGame;
 
     private int creatingJoining = 0;
+    private long creatingJoiningStartTime;
 
     public PrepareMultiplayerScreen(Game game) {
         super(game);
@@ -95,11 +96,13 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
                     if (event.x >= 230 && event.x <= 230 + 620 && event.y >= 300 && event.y <= 300 + 185) {
                         firstTimeStartCreatingServer = true;
                         state = ScreenState.CreatingServer;
+                        creatingJoiningStartTime = System.nanoTime();
 
                         return;
                     } else if (event.x >= 230 && event.x <= 230 + 620 && event.y >= 600 && event.y <= 600 + 185) {
                         firstTimeStartFindingGame = true;
                         state = ScreenState.FindingGame;
+                        creatingJoiningStartTime = System.nanoTime();
 
                         return;
                     }
@@ -156,6 +159,14 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
                 state = ScreenState.ServerCreated;
             }
         }
+
+        if (System.nanoTime() - creatingJoiningStartTime >= 0.3e9) {
+            creatingJoiningStartTime = System.nanoTime();
+            creatingJoining++;
+            if (creatingJoining == 4) {
+                creatingJoining = 0;
+            }
+        }
     }
 
     private void updateServerCreated(List<TouchEvent> touchEvents, List<KeyEvent> keyEvents) {
@@ -192,6 +203,14 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
 
         if (myGame.connected && System.nanoTime() - startConnectingTime >= 2e9) {
             state = ScreenState.Connected;
+        }
+
+        if (System.nanoTime() - creatingJoiningStartTime >= 0.3e9) {
+            creatingJoiningStartTime = System.nanoTime();
+            creatingJoining++;
+            if (creatingJoining == 4) {
+                creatingJoining = 0;
+            }
         }
     }
 
@@ -235,6 +254,14 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
                 myGame.networkManager.getHostInfo();
                 firstTimeStartConnectingToServer = true;
                 state = ScreenState.ConnectingToServer;
+            }
+        }
+
+        if (System.nanoTime() - creatingJoiningStartTime >= 0.3e9) {
+            creatingJoiningStartTime = System.nanoTime();
+            creatingJoining++;
+            if (creatingJoining == 4) {
+                creatingJoining = 0;
             }
         }
     }
@@ -289,6 +316,14 @@ public class PrepareMultiplayerScreen extends NetworkScreen {
 
         if (myGame.connected && System.nanoTime() - startConnectingTime >= 2e9) {
             state = ScreenState.Connected;
+        }
+
+        if (System.nanoTime() - creatingJoiningStartTime >= 0.3e9) {
+            creatingJoiningStartTime = System.nanoTime();
+            creatingJoining++;
+            if (creatingJoining == 4) {
+                creatingJoining = 0;
+            }
         }
     }
 

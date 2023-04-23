@@ -1,5 +1,7 @@
 package com.bbk.catchme.model;
 
+import com.badlogic.androidgames.framework.math.Rect;
+import com.badlogic.androidgames.framework.math.Vector2;
 import com.bbk.catchme.app.CatchMeGame;
 
 import java.util.ArrayList;
@@ -7,6 +9,13 @@ import java.util.Arrays;
 
 public class World {
     private CatchMeGame myGame;
+
+    public Player myPlayer;
+    public Player opponentPlayer;
+
+    final int PLAYER_SPEED = 7;
+
+    public Rect playArea;
 
 //    public Colors[] targetColors;
 //    public FacePiece[] facePieces;
@@ -23,6 +32,12 @@ public class World {
 
     public World(CatchMeGame myGame) {
         this.myGame = myGame;
+
+        myPlayer = new Player(new Vector2(100, 100), Player.Roles.Chasing);
+
+        playArea = new Rect(140, 150, 940, 1100);
+
+
 
 //        facePieces = new FacePiece[18];
 //        for (int i = 0; i < facePieces.length; i++) {
@@ -114,5 +129,19 @@ public class World {
 //        if (win) {
 //            gameOver = true;
 //        }
+    }
+
+    public void updatePlayerPosition(double xComponent, double yComponent) {
+        myPlayer.positionCenter.x += xComponent * PLAYER_SPEED;
+        myPlayer.positionCenter.y += yComponent * PLAYER_SPEED;
+
+        if (myPlayer.positionCenter.x < 0 + 12)
+            myPlayer.positionCenter.x = 0 + 12;
+        if (myPlayer.positionCenter.x > playArea.right - playArea.left - 12)
+            myPlayer.positionCenter.x = playArea.right - playArea.left - 12;
+        if (myPlayer.positionCenter.y < 0 + 12)
+            myPlayer.positionCenter.y = 0 + 12;
+        if (myPlayer.positionCenter.y > playArea.bottom - playArea.top - 12)
+            myPlayer.positionCenter.y = playArea.bottom - playArea.top - 12;
     }
 }

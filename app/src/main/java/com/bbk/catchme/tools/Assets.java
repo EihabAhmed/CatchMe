@@ -14,6 +14,11 @@ public class Assets {
     public static Pixmap readyImage;
     public static Pixmap notReadyImage;
     public static Pixmap noPlayersFoundImage;
+    public static Pixmap gameBackgroundImage;
+    public static Pixmap bluePlayerImage;
+    public static Pixmap greenPlayerImage;
+    public static Pixmap blueButtonImage;
+    public static Pixmap greenButtonImage;
 
     public static void load(AndroidGame game) {
 
