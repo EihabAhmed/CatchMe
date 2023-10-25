@@ -1,4 +1,4 @@
-package com.badlogic.androidgames.framework.impl.network;
+package com.bbk.catchme.network;
 
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;

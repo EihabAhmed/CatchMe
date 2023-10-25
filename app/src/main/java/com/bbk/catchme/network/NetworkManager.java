@@ -1,4 +1,4 @@
-package com.badlogic.androidgames.framework.impl.network;
+package com.bbk.catchme.network;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;

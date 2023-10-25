@@ -4,8 +4,7 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Input.KeyEvent;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
-import com.badlogic.androidgames.framework.Pixmap;
-import com.badlogic.androidgames.framework.impl.network.NetworkScreen;
+import com.bbk.catchme.network.NetworkScreen;
 import com.bbk.catchme.app.CatchMeGame;
 import com.bbk.catchme.tools.Assets;
 

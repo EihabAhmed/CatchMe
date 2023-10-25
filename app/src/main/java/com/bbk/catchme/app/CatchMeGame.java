@@ -6,8 +6,8 @@ import android.os.Looper;
 import android.os.Message;
 
 import com.badlogic.androidgames.framework.Screen;
-import com.badlogic.androidgames.framework.impl.network.NetworkGame;
-import com.badlogic.androidgames.framework.impl.network.NetworkManager;
+import com.bbk.catchme.network.NetworkGame;
+import com.bbk.catchme.network.NetworkManager;
 import com.bbk.catchme.tools.Assets;
 import com.bbk.catchme.tools.GameGenerator;
 import com.bbk.catchme.tools.Settings;
